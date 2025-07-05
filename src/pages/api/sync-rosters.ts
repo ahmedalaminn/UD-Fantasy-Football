@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
+// questions marks mean optional properties
 interface User {
   user_id: string;
   display_name?: string;
@@ -26,10 +27,7 @@ interface TeamData {
   last_synced: string;
 }
 
-const supabase = createClient (
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+const supabase = createClient(process.env.SUPABASE_PUBLIC_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 
 export default async function(req: NextApiRequest, res: NextApiResponse) {
     try {

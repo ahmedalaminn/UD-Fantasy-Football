@@ -2,8 +2,5 @@
 
 html {
     scroll-behavior: smooth;
-}
-
-.background { /* https://bg.ibelick.com/ */
-    background: radial-gradient(125% 125% at 50% 10%, #63e 40%, #000 100%);
+    background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #63e 100%); /* https://bg.ibelick.com/ */
 }

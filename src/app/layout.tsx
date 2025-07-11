@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "UD Fantasty Football",
+  title: "UD Fantasy Football",
   description: "",
 };
 

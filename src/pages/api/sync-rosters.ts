@@ -14,7 +14,7 @@ interface User {
 interface Roster {
   owner_id: string;
   players?: string[];
-  settings?: Record<string, any>;
+  settings?: Record<string, number>;
 }
 
 interface TeamData {
@@ -22,7 +22,7 @@ interface TeamData {
   display_name?: string;
   team_name?: string;
   avatar?: string | null;
-  settings?: Record<string, any>;
+  settings?: Record<string, number>;
   players?: string[];
   last_synced: string;
 }
@@ -32,7 +32,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export default async function(req: NextApiRequest, res: NextApiResponse) {
+export default async function syncRostersHandler(req: NextApiRequest, res: NextApiResponse) {
     try {
         const leagueId = process.env.LEAGUE_ID;
         if (!leagueId) {

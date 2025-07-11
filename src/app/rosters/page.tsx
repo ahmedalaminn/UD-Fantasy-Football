@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -7,15 +7,36 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+interface Roster {
+  id: string;
+  display_name: string;
+  team_name: string;
+  settings: Record<string, number>;
+  players: string[];
+  avatar: string;
+}
+
+interface Player {
+  id: string;
+  full_name: string;
+  team: string;
+  fantasy_positions: string[];
+  is_defense: boolean;
+  headshot_url: string;
+}
+
 export default function Page() {
-  const [rostersData, setRostersData] = useState<any[]>([]);
-  const [playersMap, setPlayersMap] = useState<Record<string, any>>({});
+  const [rostersData, setRostersData] = useState<Roster[]>([]);
+  const [playersMap, setPlayersMap] = useState<Record<string, Player>>({});
 
   useEffect(() => {
     const fetchData = async () => {
       const { data: rosters, error: rostersError } = await supabase.from("rosters").select();
+      if (rostersError) {
+        console.log("Failed to fetch rosters data from database", rostersError);
+        return;
+      }
       setRostersData(rosters || []);
-      if (!rosters) return;
 
       let allPlayerIds: string[] = [];
       for (const roster of rosters) {
@@ -25,8 +46,12 @@ export default function Page() {
       }
 
       const { data: players, error: playersError} = await supabase.from("players").select().in("id", allPlayerIds);
+      if (playersError) {
+        console.log("Failed to fetch players data from database", playersError);
+        return;
+      }
 
-      const map: Record<string,any> = {};
+      const map: Record<string, Player> = {};
       if (players) {
         for (const player of players) {
           map[player.id] = player;

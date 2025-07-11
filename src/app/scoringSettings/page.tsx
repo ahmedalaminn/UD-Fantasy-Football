@@ -7,12 +7,20 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+interface League {
+  scoring_settings: Record<string, number>;
+}
+
 export default function Page() {
-  const [leagueData, setLeagueData] = useState<any[]>([]);
+  const [leagueData, setLeagueData] = useState<League[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const { data: league, error: leagueError } = await supabase.from("my_league").select();
+      if (leagueError) {
+        console.log("Failed to fetch league data from database", leagueError);
+        return;
+      }
       setLeagueData(league || []);
     };
 

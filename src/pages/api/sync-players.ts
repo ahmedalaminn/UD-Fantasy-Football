@@ -14,7 +14,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export default async function(req: NextApiRequest, res: NextApiResponse) {
+export default async function syncPlayersHandler(req: NextApiRequest, res: NextApiResponse) {
     try {
         const response = await fetch("https://api.sleeper.app/v1/players/nfl")
         if (!response.ok) {

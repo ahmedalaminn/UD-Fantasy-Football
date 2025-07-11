@@ -9,7 +9,7 @@ export default function Home() {
           <img 
             src="/shaq-trophy.jpeg" 
             alt="Shaq Trophy" 
-            className="rounded-lg shadow-lg max-h-[550px] object-contain" 
+            className="rounded-lg shadow-lg max-h-[700px] object-contain" 
           />
           <figcaption className="mt-2 text-m">Shaq (right), Season 5 champ, receiving the trophy from none other than the Commish!</figcaption>
         </figure>

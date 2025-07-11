@@ -24,14 +24,18 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
         const players: Record<string, Player> = await response.json();
         const nflPlayers = Object.values(players)
             .filter(player => player.sport === 'nfl')
-            .map(player => ({
-                id: player.player_id,
-                espn_id: player.espn_id ?? null,
-                full_name: player.full_name ?? '',
-                team: player.team ?? null,
-                fantasy_positions: player.fantasy_positions ?? [],
-                last_synced: new Date().toISOString()
-            }))
+            .map(player => {
+                return {
+                    id: player.player_id,
+                    espn_id: player.espn_id ?? null,
+                    full_name: player.full_name ?? '',
+                    team: player.team ?? null,
+                    fantasy_positions: player.fantasy_positions ?? [],
+                    headshot_url: player.espn_id ? `https://a.espncdn.com/i/headshots/nfl/players/full/${player.espn_id}.png` : null,
+                    is_defense: player.fantasy_positions?.[0] === "DEF",
+                    last_synced: new Date().toISOString()
+                };
+            });
         
         const { error } = await supabase.from('players').upsert(nflPlayers, {
         onConflict: 'id'

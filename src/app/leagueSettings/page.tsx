@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { SettingsTable } from "../components/settingsTable"
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -33,7 +32,13 @@ export default function Page() {
 
               <div>
                 <div className="font-semibold text-lg mb-2">General Settings</div>
-                <SettingsTable data={leagueData[0].settings} />
+                  <div className = "grid grid-cols-2 gap-x-60">
+                    {Object.entries(leagueData[0].settings).map(([key, value]) => (
+                      <div key = {key} className = "flex justify-center font-mono whitespace-nowrap">
+                        {key}: {String(value)}
+                      </div>
+                    ))}
+                  </div>
               </div>
             </div>
           </>
